@@ -12,7 +12,7 @@ const index = () => {
 
   return (
     <div>
-      <form class='formClass'>
+      <form className='formClass'>
         <label>Username</label>
         <input className='input' type='text' value={user.username}></input>
         <label>Email</label>
