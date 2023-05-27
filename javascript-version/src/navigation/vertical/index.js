@@ -44,6 +44,12 @@ const navigation = () => {
       openInNewTab: true
     },
     {
+      title: 'New Page',
+      icon: AlertCircleOutline,
+      path: '/pages/newpage',
+      openInNewTab: true
+    },
+    {
       sectionTitle: 'User Interface'
     },
     {

@@ -4,6 +4,7 @@ import { useState } from 'react'
 // ** Next Imports
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import axios from 'axios'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
@@ -64,6 +65,8 @@ const LoginPage = () => {
     showPassword: false
   })
 
+  const [username, setUserName] = useState('')
+
   // ** Hook
   const theme = useTheme()
   const router = useRouter()
@@ -78,6 +81,16 @@ const LoginPage = () => {
 
   const handleMouseDownPassword = event => {
     event.preventDefault()
+  }
+
+  const loginHandler = async () => {
+    const password = values.password
+    console.log(password, username)
+    const data = await axios.post('https://dummyjson.com/auth/login', { username, password })
+    const user = data.data
+
+    localStorage.setItem('user', JSON.stringify(user))
+    router.push('/pages/newpage')
   }
 
   return (
@@ -164,7 +177,14 @@ const LoginPage = () => {
             <Typography variant='body2'>Please sign-in to your account and start the adventure</Typography>
           </Box>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField autoFocus fullWidth id='email' label='Email' sx={{ marginBottom: 4 }} />
+            <TextField
+              autoFocus
+              fullWidth
+              id='email'
+              label='Email'
+              sx={{ marginBottom: 4 }}
+              onChange={e => setUserName(e.target.value)}
+            />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
               <OutlinedInput
@@ -195,13 +215,7 @@ const LoginPage = () => {
                 <LinkStyled onClick={e => e.preventDefault()}>Forgot Password?</LinkStyled>
               </Link>
             </Box>
-            <Button
-              fullWidth
-              size='large'
-              variant='contained'
-              sx={{ marginBottom: 7 }}
-              onClick={() => router.push('/')}
-            >
+            <Button fullWidth size='large' variant='contained' sx={{ marginBottom: 7 }} onClick={loginHandler}>
               Login
             </Button>
             <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
